@@ -1,8 +1,11 @@
+const { create } = require("domain");
 const express = require("express");
 const path = require("path");
 const app = express();
 const port = 3000;
 
+const createError = (errorText) => `<h1>error</h1>
+<span style="font-family: monospace">${errorText || "no description provided"}</span>`
 const indexfile = require("./config.json");
 const tests = [];
 for(let testfile of indexfile.files){
@@ -23,7 +26,7 @@ app.get("/", (req, res) => {
 app.get("/test/:id/", (req, res) => {
     let testid = parseInt(req.params.id);
     if(isNaN(testid) || testid < 0 || testid >= tests.length){
-        res.send("<h1>error</h1><script>setTimeout(function(){window.location.href = \"/\"}, 1000)</script>");
+        res.status(404).send(createError("no such test"));
         return;
     }
     res.render("main", {test: tests[testid]});
