@@ -4,17 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/style.css">
-    <title>ekartkówka</title>
+    <title><%= test.name %></title>
 </head>
 <body>
-    <h1>ekartkówka</h1>
-    <ul>
-    <% tests.forEach(function(test, index){%>
-    <li>
-        <a href="/test/<%= index %>/">
-            <%= test.name %>
-        </a>
-    </li>
-    <% }) %>
+    <h1><%= test.name %></h1>
 </body>
 </html>

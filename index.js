@@ -20,6 +20,15 @@ app.get("/", (req, res) => {
     res.render("index", {tests: tests});
 });
 
+app.get("/test/:id/", (req, res) => {
+    let testid = parseInt(req.params.id);
+    if(isNaN(testid) || testid < 0 || testid >= tests.length){
+        res.send("<h1>error</h1><script>setTimeout(function(){window.location.href = \"/\"}, 1000)</script>");
+        return;
+    }
+    res.render("main", {test: tests[testid]});
+});
+
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`);
 });
