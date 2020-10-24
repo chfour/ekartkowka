@@ -8,12 +8,13 @@
 </head>
 <body>
     <h1>ekartkówka</h1>
-    <div class="center">
-        tytuł: <%= name %> <br>
-        autor: <%= author %> <br>
-        <br>
-        <a href="/main">kliknij tutaj aby rozpocząć</a>
-    </div>
-    
+    <ul>
+    <% tests.forEach(function(test, index){%>
+    <li>
+        <a href="/<%= index %>/">
+            <%= test.name %>
+        </a>
+    </li>
+    <% }) %>
 </body>
 </html>
