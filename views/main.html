@@ -8,5 +8,30 @@
 </head>
 <body>
     <h1><%= test.name %></h1>
+    <form action="results" method="POST">
+        <% test.questions.forEach(function(question, qindex){ %>
+        <h2><%= qindex + 1 %>: <%= question.name %></h2>
+        <% question.answers.forEach(function(answer, aindex){ %>
+        <input type="radio" name="q<%= qindex %>" id="<%= qindex %>,<%= aindex %>" value="<%= aindex %>">
+        <label for="<%= qindex %>,<%= aindex %>"><%= answer %></label>
+        <% }) %>
+        <% }) %>
+        <br>
+        <br>
+        <input id="submit0" class="submitbutton" type="button" value="zakończ">
+        <input id="submit1" style="display: none;" type="button" class="submitbutton" value="tak, na pewno">
+        <input id="submit2" style="display: none;" type="submit" class="submitbutton" value="na bank">
+        <script>
+            const submitbfake0 = document.getElementById("submit0");
+            const submitbfake1 = document.getElementById("submit1");
+            const submitb = document.getElementById("submit2");
+            submitbfake0.addEventListener("click", function(){
+                if(submitbfake1.style.display == "none") submitbfake1.style.display = "block";
+            });
+            submitbfake1.addEventListener("click", function(){
+                if(submitb.style.display == "none") submitb.style.display = "block";
+            });
+        </script>
+    </form>
 </body>
 </html>

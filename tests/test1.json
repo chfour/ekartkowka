@@ -1,3 +1,26 @@
 {
-    "name": "test1"
+    "name": "test1",
+    "questions": [
+        {
+            "name": "question1",
+            "answers": ["answer1-correct", "answer2", "answer3"],
+            "correct": 0,
+            "ptsCorrect": 1,
+            "ptsWrong": -1
+        },
+        {
+            "name": "question2",
+            "answers": ["answer1", "answer2-correct", "answer3"],
+            "correct": 1,
+            "ptsCorrect": 1,
+            "ptsWrong": -1
+        },
+        {
+            "name": "question3",
+            "answers": ["answer1", "answer2", "answer3-correct"],
+            "correct": 2,
+            "ptsCorrect": 1,
+            "ptsWrong": -1
+        }
+    ]
 }

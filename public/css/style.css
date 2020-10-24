@@ -6,3 +6,9 @@ body{
 .center, h1{
     text-align: center;
 }
+.submitbutton{
+    width: 30%;
+    height: 40px;
+    display: block;
+    margin: auto;
+}
