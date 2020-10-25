@@ -12,7 +12,7 @@
         <% test.questions.forEach(function(question, qindex){ %>
         <h2><%= qindex + 1 %>: <%= question.name %></h2>
         <% question.answers.forEach(function(answer, aindex){ %>
-        <input type="radio" name="q<%= qindex %>" id="<%= qindex %>,<%= aindex %>" value="<%= aindex %>">
+        <input type="radio" name="<%= qindex %>" id="<%= qindex %>,<%= aindex %>" value="<%= aindex %>">
         <label for="<%= qindex %>,<%= aindex %>"><%= answer %></label>
         <% }) %>
         <% }) %>
