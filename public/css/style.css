@@ -5,6 +5,7 @@ body{
 }
 .center, h1{
     text-align: center;
+    display: block;
 }
 .submitbutton{
     width: 30%;

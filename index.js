@@ -39,8 +39,8 @@ app.post("/test/:id/results", (req, res) => {
         return;
     }
     let test = tests[testid];
-    let answers = [];
-    test.questions.forEach(_ => answers.push(null));
+    let answers = [], correctCount = 0;
+    test.questions.forEach(_ => answers.push({}));
     for(let qs in req.body){
         let questionno = parseInt(qs);
         if(isNaN(questionno) || questionno < 0 || questionno >= answers.length){
@@ -53,11 +53,16 @@ app.post("/test/:id/results", (req, res) => {
             return;
         }
 
-        answers[questionno] = answer;
+        let correct = test.questions[questionno].correct == answer
+        answers[questionno] = {
+            value: answer,
+            correct: correct
+        };
+        if(correct) correctCount++;
     }
     console.debug(answers);
-    res.render("results", {test: test});
-})
+    res.render("results", {test: test, answers: answers, correctCount: correctCount});
+});
 
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`);
