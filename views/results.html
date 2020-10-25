@@ -9,6 +9,7 @@
 <body>
     <h1><%= test.name %></h1>
     <span class="center" style="font-size: large;">
+        czas: <%= fmttime(time) %><br>
         wynik: <%= correctCount %> / <%= answers.length %> poprawnych odpowiedzi
         (<%= (correctCount / answers.length * 100).toFixed(0) %>&percnt;)<br>
         <%= points %> / <%= test.maxPoints %> punktów<br>

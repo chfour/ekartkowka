@@ -8,7 +8,9 @@
 </head>
 <body>
     <h1><%= test.name %></h1>
+    <span class="center" style="font-size: large;" id="timer">00:00:00</span>
     <form action="results" method="POST">
+        <input type="hidden" name="time" id="time" value="0">
         <% test.questions.forEach(function(question, qindex){ %>
         <h2><%= qindex + 1 %>: <%= question.name %></h2>
         <% question.answers.forEach(function(answer, aindex){ %>
@@ -23,6 +25,12 @@
         <input id="submit2" style="display: none;" type="button" class="submitbutton" value="na bank">
         <input id="submit3" style="display: none;" type="submit" class="submitbutton" value="na sto procent">
         <script>
+            function time(ms) {
+                return new Date(ms).toISOString().slice(11, -5);
+            }
+            const starttime = Date.now();
+            const timer = document.getElementById("timer");
+            const timerinput = document.getElementById("time");
             const submitbfake0 = document.getElementById("submit0");
             const submitbfake1 = document.getElementById("submit1");
             const submitbfake2 = document.getElementById("submit2");
@@ -36,6 +44,11 @@
             submitbfake2.addEventListener("click", function(){
                 if(submitb.style.display == "none") submitb.style.display = "block";
             });
+            setInterval(function(){
+                let nowtime = Date.now();
+                timerinput.value = nowtime - starttime;
+                timer.textContent = time(nowtime - starttime);
+            }, 500);
         </script>
     </form>
 </body>

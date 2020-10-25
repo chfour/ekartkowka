@@ -41,10 +41,16 @@ app.post("/test/:id/results", (req, res) => {
         res.status(404).send(createError("no such test"));
         return;
     }
+    console.debug(req.body);
     let test = tests[testid];
-    let answers = [], correctCount = 0, points = 0;
+    let answers = [], correctCount = 0, points = 0, timedur = 0;
     test.questions.forEach(_ => answers.push({}));
     for(let qs in req.body){
+        if(qs == "time"){
+            let parsedtime = parseInt(req.body.time);
+            if(!isNaN(parsedtime)) timedur = parsedtime;
+            continue;
+        }
         let questionno = parseInt(qs);
         if(isNaN(questionno) || questionno < 0 || questionno >= answers.length){
             res.status(404).send(createError(`invalid question id: ${qs}`));
@@ -69,7 +75,14 @@ app.post("/test/:id/results", (req, res) => {
         }
     }
     console.debug(answers);
-    res.render("results", {test: test, answers: answers, correctCount: correctCount, points: points});
+    res.render("results", {
+        test: test,
+        answers: answers,
+        correctCount: correctCount,
+        points: points,
+        time: timedur,
+        fmttime: function(ms){return new Date(ms).toISOString().slice(11, -5)}
+    });
 });
 
 app.listen(port, () => {
