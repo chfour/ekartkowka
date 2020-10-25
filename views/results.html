@@ -11,6 +11,7 @@
     <span class="center" style="font-size: large;">
         wynik: <%= correctCount %> / <%= answers.length %> poprawnych odpowiedzi
         (<%= (correctCount / answers.length * 100).toFixed(0) %>&percnt;)<br>
+        <%= points %> / <%= test.maxPoints %> punktów<br>
     </span>
     <% test.questions.forEach(function(question, qindex){ %>
     

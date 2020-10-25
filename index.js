@@ -8,7 +8,10 @@ const createError = (errorText) => `<h1>error</h1>
 const indexfile = require("./config.json");
 const tests = [];
 for(let testfile of indexfile.files){
-    tests.push(require(testfile));
+    let thistest = require(testfile);
+    thistest.maxPoints = 0;
+    thistest.questions.forEach(q => thistest.maxPoints += q.ptsCorrect);
+    tests.push(thistest);
 }
 
 app.engine(".html", require("ejs").__express);
@@ -39,7 +42,7 @@ app.post("/test/:id/results", (req, res) => {
         return;
     }
     let test = tests[testid];
-    let answers = [], correctCount = 0;
+    let answers = [], correctCount = 0, points = 0;
     test.questions.forEach(_ => answers.push({}));
     for(let qs in req.body){
         let questionno = parseInt(qs);
@@ -53,15 +56,20 @@ app.post("/test/:id/results", (req, res) => {
             return;
         }
 
-        let correct = test.questions[questionno].correct == answer
+        let correct = test.questions[questionno].correct == answer;
         answers[questionno] = {
             value: answer,
             correct: correct
         };
-        if(correct) correctCount++;
+        if(correct){
+            correctCount++;
+            points += test.questions[questionno].ptsCorrect;
+        }else{
+            points += test.questions[questionno].ptsWrong;
+        }
     }
     console.debug(answers);
-    res.render("results", {test: test, answers: answers, correctCount: correctCount});
+    res.render("results", {test: test, answers: answers, correctCount: correctCount, points: points});
 });
 
 app.listen(port, () => {
