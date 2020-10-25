@@ -24,32 +24,32 @@
         <input id="submit1" style="display: none;" type="button" class="submitbutton" value="tak, na pewno">
         <input id="submit2" style="display: none;" type="button" class="submitbutton" value="na bank">
         <input id="submit3" style="display: none;" type="submit" class="submitbutton" value="na sto procent">
-        <script>
-            function time(ms) {
-                return new Date(ms).toISOString().slice(11, -5);
-            }
-            const starttime = Date.now();
-            const timer = document.getElementById("timer");
-            const timerinput = document.getElementById("time");
-            const submitbfake0 = document.getElementById("submit0");
-            const submitbfake1 = document.getElementById("submit1");
-            const submitbfake2 = document.getElementById("submit2");
-            const submitb = document.getElementById("submit3");
-            submitbfake0.addEventListener("click", function(){
-                if(submitbfake1.style.display == "none") submitbfake1.style.display = "block";
-            });
-            submitbfake1.addEventListener("click", function(){
-                if(submitbfake2.style.display == "none") submitbfake2.style.display = "block";
-            });
-            submitbfake2.addEventListener("click", function(){
-                if(submitb.style.display == "none") submitb.style.display = "block";
-            });
-            setInterval(function(){
-                let nowtime = Date.now();
-                timerinput.value = nowtime - starttime;
-                timer.textContent = time(nowtime - starttime);
-            }, 500);
-        </script>
     </form>
+    <script>
+        function time(ms) {
+            return new Date(ms).toISOString().slice(11, -5);
+        }
+        const starttime = Date.now();
+        const timer = document.getElementById("timer");
+        const timerinput = document.getElementById("time");
+        const submitbfake0 = document.getElementById("submit0");
+        const submitbfake1 = document.getElementById("submit1");
+        const submitbfake2 = document.getElementById("submit2");
+        const submitb = document.getElementById("submit3");
+        submitbfake0.addEventListener("click", function(){
+            if(submitbfake1.style.display == "none") submitbfake1.style.display = "block";
+        });
+        submitbfake1.addEventListener("click", function(){
+            if(submitbfake2.style.display == "none") submitbfake2.style.display = "block";
+        });
+        submitbfake2.addEventListener("click", function(){
+            if(submitb.style.display == "none") submitb.style.display = "block";
+        });
+        setInterval(function(){
+            let nowtime = Date.now();
+            timerinput.value = nowtime - starttime;
+            timer.textContent = time(nowtime - starttime);
+        }, 500);
+    </script>
 </body>
 </html>

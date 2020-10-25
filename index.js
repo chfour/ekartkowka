@@ -44,11 +44,18 @@ app.post("/test/:id/results", (req, res) => {
     console.debug(req.body);
     let test = tests[testid];
     let answers = [], correctCount = 0, points = 0, timedur = 0;
+    let respacked = {
+        time: 0,
+        answers: []
+    };
     test.questions.forEach(_ => answers.push({}));
     for(let qs in req.body){
         if(qs == "time"){
             let parsedtime = parseInt(req.body.time);
-            if(!isNaN(parsedtime)) timedur = parsedtime;
+            if(!isNaN(parsedtime)){
+                timedur = parsedtime;
+                respacked.time = parsedtime;
+            }
             continue;
         }
         let questionno = parseInt(qs);
@@ -67,6 +74,7 @@ app.post("/test/:id/results", (req, res) => {
             value: answer,
             correct: correct
         };
+        respacked.answers.push(answer);
         if(correct){
             correctCount++;
             points += test.questions[questionno].ptsCorrect;
@@ -81,7 +89,8 @@ app.post("/test/:id/results", (req, res) => {
         correctCount: correctCount,
         points: points,
         time: timedur,
-        fmttime: function(ms){return new Date(ms).toISOString().slice(11, -5)}
+        fmttime: function(ms){return new Date(ms).toISOString().slice(11, -5)},
+        resultcode: Buffer.from(JSON.stringify(respacked)).toString("base64")
     });
 });
 

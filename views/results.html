@@ -61,5 +61,20 @@
     <% } %>
     <% }) %>
     <% }) %>
+    <br>
+    <br>
+    <script>
+        function copycode(){
+            const codeinput = document.getElementById("rescode");
+            codeinput.select();
+            codeinput.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+        }
+    </script>
+    <div class="center">
+        kod wyniku: <input type="text" id="rescode" value="<%= resultcode %>" readonly>
+        <input type="button" value="kopiuj do schowka" onclick="copycode()">
+        <input type="button" class="submitbutton" value="powrót do listy" onclick="window.location.href = '/';">
+    </div>
 </body>
 </html>
