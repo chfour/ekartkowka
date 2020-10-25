@@ -56,7 +56,7 @@ app.post("/test/:id/results", (req, res) => {
             return;
         }
 
-        let correct = test.questions[questionno].correct == answer;
+        let correct = test.questions[questionno].correct.includes(answer);
         answers[questionno] = {
             value: answer,
             correct: correct
