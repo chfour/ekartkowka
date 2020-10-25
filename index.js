@@ -48,7 +48,7 @@ app.post("/test/:id/results", (req, res) => {
         time: 0,
         answers: []
     };
-    test.questions.forEach(_ => answers.push({}));
+    test.questions.forEach(_ => {answers.push({value: null, correct: false}); respacked.answers.push(null)});
     for(let qs in req.body){
         if(qs == "time"){
             let parsedtime = parseInt(req.body.time);
@@ -74,7 +74,7 @@ app.post("/test/:id/results", (req, res) => {
             value: answer,
             correct: correct
         };
-        respacked.answers.push(answer);
+        respacked.answers[questionno] = answer;
         if(correct){
             correctCount++;
             points += test.questions[questionno].ptsCorrect;
