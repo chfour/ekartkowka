@@ -9,7 +9,57 @@
 <body>
     <h1><%= test.name %></h1>
     <span class="center" style="font-size: large;">
-        wynik: <%= correctCount %> / <%= answers.length %> poprawnych odpowiedzi<br>
+        wynik: <%= correctCount %> / <%= answers.length %> poprawnych odpowiedzi
+        (<%= (correctCount / answers.length * 100).toFixed(0) %>&percnt;)<br>
     </span>
+    <% test.questions.forEach(function(question, qindex){ %>
+    
+    
+    <h3>
+        <%= qindex + 1 %>:
+        <%= question.name %>
+        <% if(answers[qindex].correct){ %>
+        <span style="color: green;"><%= question.ptsCorrect %>p</span>
+        <% }else{ %>
+        <span style="color: red;"><%= question.ptsWrong %>p</span>
+        <% } %>
+        <span style="font-size: x-small;">
+            (
+            <span style="color: green;"><%= question.ptsCorrect %>p</span>
+            <span style="color: red;"><%= question.ptsWrong %>p</span>
+            )
+        </span>
+        
+    </h3>
+    
+    
+    <% question.answers.forEach(function(answer, aindex){ %>
+
+    <% if(answers[qindex].correct){ %>
+    
+    <% if(answers[qindex].value == aindex){ %>
+    <input type="radio" name="<%= qindex %>" id="<%= qindex %>,<%= aindex %>" disabled checked>
+    <label style="color: green;" for="<%= qindex %>,<%= aindex %>"><%= answer %></label>
+    <% }else{ %>
+    <input type="radio" name="<%= qindex %>" id="<%= qindex %>,<%= aindex %>" disabled>
+    <label for="<%= qindex %>,<%= aindex %>"><%= answer %></label>
+    <% } %>
+
+    <% }else{ %>
+    
+    <% if(answers[qindex].value == aindex){ %>
+    <input type="radio" name="<%= qindex %>" id="<%= qindex %>,<%= aindex %>" disabled checked>
+    <label style="color: red;" for="<%= qindex %>,<%= aindex %>"><%= answer %></label>
+    <% }else if(aindex == question.correct){ %>
+    <input type="radio" name="<%= qindex %>" id="<%= qindex %>,<%= aindex %>" disabled>
+    <label style="color: green;" for="<%= qindex %>,<%= aindex %>"><%= answer %></label>
+    <% }else{ %>
+    <input type="radio" name="<%= qindex %>" id="<%= qindex %>,<%= aindex %>" disabled>
+    <label for="<%= qindex %>,<%= aindex %>"><%= answer %></label>
+    <% } %>
+    
+    <% } %>
+    <% }) %>
+    <% }) %>
 </body>
 </html>
