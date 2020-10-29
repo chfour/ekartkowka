@@ -129,7 +129,7 @@ app.get("/test/:id/resultsfromcode", (req, res) => {
     console.debug(unpacked);
     
     if(unpacked.answers.length != test.questions.length){
-        res.status(400).render("error", {errorText: `ilość odpowiedzi w kodzie nie jest równa ilości pytań testu, może chodziło Ci o inny test?`});
+        res.status(400).render("error", {errorText: `ilość odpowiedzi w kodzie nie jest równa ilości pytań testu, być może chodziło Ci o inny test?`});
         return;
     }
 
