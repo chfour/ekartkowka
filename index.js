@@ -80,8 +80,8 @@ app.post("/test/:id/results", (req, res) => {
     for(let questionno in answers){
         let answer = answers[questionno];
 
-        answer.correct = test.questions[questionno].correct.includes(answer);
-        respacked.answers[questionno] = answer;
+        answer.correct = test.questions[questionno].correct.includes(answer.value);
+        respacked.answers[questionno] = answer.value;
 
         if(answer.correct){
             correctCount++;
@@ -133,17 +133,19 @@ app.get("/test/:id/resultsfromcode", (req, res) => {
         return;
     }
 
-    let correctCount = 0, points = 0, timedur = 0;
+    let correctCount = 0, points = 0, timedur = 0, answers = [];
+    test.questions.forEach(_ => answers.push({value: null, correct: false}));
 
-    if(unpacked.hasOwnProperty("time") && typeof unpacked == "number") timedur = unpacked.time;
+    if(unpacked.hasOwnProperty("time") && typeof unpacked.time == "number") timedur = unpacked.time;
 
     for(let questionno in unpacked.answers){
         let answer = unpacked.answers[questionno];
 
-        answer.correct = test.questions[questionno].correct.includes(answer);
-        unpacked.answers[questionno] = answer;
+        let correct = test.questions[questionno].correct.includes(answer)
+        answers[questionno].value = answer;
+        answers[questionno].correct = correct;
 
-        if(answer.correct){
+        if(correct){
             correctCount++;
             points += test.questions[questionno].ptsCorrect;
         }else{
@@ -153,7 +155,7 @@ app.get("/test/:id/resultsfromcode", (req, res) => {
 
     res.render("results", {
         test: test,
-        answers: unpacked.answers,
+        answers: answers,
         correctCount: correctCount,
         points: points,
         time: timedur,
