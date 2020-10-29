@@ -77,14 +77,15 @@ app.post("/test/:id/results", (req, res) => {
             res.status(404).send(createError(`invalid answer for question ${questionno}: ${req.body[qs]}`));
             return;
         }
+        answers[questionno].value = answer;
+    }
+    for(let questionno in answers){
+        let answer = answers[questionno];
 
-        let correct = test.questions[questionno].correct.includes(answer);
-        answers[questionno] = {
-            value: answer,
-            correct: correct
-        };
+        answer.correct = test.questions[questionno].correct.includes(answer);
         respacked.answers[questionno] = answer;
-        if(correct){
+        
+        if(answer.correct){
             correctCount++;
             points += test.questions[questionno].ptsCorrect;
         }else{
