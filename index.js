@@ -3,8 +3,6 @@ const path = require("path");
 const app = express();
 const port = 3000;
 
-const createError = (errorText) => `<h1>error</h1>
-<span style="font-family: monospace">${errorText || "no description provided"}</span>`
 const indexfile = require("./config.json");
 const tests = [];
 for(let testfile of indexfile.files){
@@ -29,7 +27,7 @@ app.get("/", (req, res) => {
 app.get("/test/:id/", (req, res) => {
     let testid = parseInt(req.params.id);
     if(isNaN(testid) || testid < 0 || testid >= tests.length){
-        res.status(404).send(createError("no such test"));
+        res.status(404).render("error", {errorText: `nie znaleziono "${testid}"`});
         return;
     }
     res.render("testindex", {test: tests[testid]});
@@ -38,7 +36,7 @@ app.get("/test/:id/", (req, res) => {
 app.get("/test/:id/main", (req, res) => {
     let testid = parseInt(req.params.id);
     if(isNaN(testid) || testid < 0 || testid >= tests.length){
-        res.status(404).send(createError("no such test"));
+        res.status(404).render("error", {errorText: `nie znaleziono "${testid}"`});
         return;
     }
     res.render("main", {test: tests[testid]});
@@ -47,7 +45,7 @@ app.get("/test/:id/main", (req, res) => {
 app.post("/test/:id/results", (req, res) => {
     let testid = parseInt(req.params.id);
     if(isNaN(testid) || testid < 0 || testid >= tests.length){
-        res.status(404).send(createError("no such test"));
+        res.status(404).render("error", {errorText: `nie znaleziono "${testid}"`});
         return;
     }
     console.debug(req.body);
@@ -69,12 +67,12 @@ app.post("/test/:id/results", (req, res) => {
         }
         let questionno = parseInt(qs);
         if(isNaN(questionno) || questionno < 0 || questionno >= answers.length){
-            res.status(404).send(createError(`invalid question id: ${qs}`));
+            res.status(404).render("error", {errorText: `nieprawidłowy numer pytania "${qs}"`});
             return;
         }
         let answer = parseInt(req.body[qs]);
         if(isNaN(answer) || answer < 0 || answer >= test.questions[questionno].answers.length){
-            res.status(404).send(createError(`invalid answer for question ${questionno}: ${req.body[qs]}`));
+            res.status(404).render("error", {errorText: `nieprawidłowa odpowiedź na pytanie "${questionno}": "${req.body[qs]}"`});
             return;
         }
         answers[questionno].value = answer;
@@ -84,7 +82,7 @@ app.post("/test/:id/results", (req, res) => {
 
         answer.correct = test.questions[questionno].correct.includes(answer);
         respacked.answers[questionno] = answer;
-        
+
         if(answer.correct){
             correctCount++;
             points += test.questions[questionno].ptsCorrect;
