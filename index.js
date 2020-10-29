@@ -102,6 +102,66 @@ app.post("/test/:id/results", (req, res) => {
     });
 });
 
+app.get("/test/:id/resultsfromcode", (req, res) => {
+    let testid = parseInt(req.params.id);
+    if(isNaN(testid) || testid < 0 || testid >= tests.length){
+        res.status(404).render("error", {errorText: `nie znaleziono "${testid}"`});
+        return;
+    }
+    let test = tests[testid];
+
+    console.debug(req.query);
+    if(!req.query.hasOwnProperty("code") || !req.query.code){
+        res.status(400).render("error", {errorText: `nie podano kodu odpowiedzi`});
+    }
+
+    let decoded = Buffer.from(req.query.code, 'base64').toString('ascii');
+    console.debug("decoded:", decoded);
+    let unpacked;
+    try{
+        unpacked = JSON.parse(decoded);
+        if(!unpacked || typeof unpacked != "object") throw TypeError("incorrect type after parsing");
+        if(!unpacked.hasOwnProperty("answers")) throw Error("no 'answers' property");
+    }catch(e){
+        res.status(400).render("error", {errorText: `kod jest błędny / ${e.name}: ${e.message}`});
+        return;
+    }
+    console.debug(unpacked);
+    
+    if(unpacked.answers.length != test.questions.length){
+        res.status(400).render("error", {errorText: `ilość odpowiedzi w kodzie nie jest równa ilości pytań testu, może chodziło Ci o inny test?`});
+        return;
+    }
+
+    let correctCount = 0, points = 0, timedur = 0;
+
+    if(unpacked.hasOwnProperty("time") && typeof unpacked == "number") timedur = unpacked.time;
+
+    for(let questionno in unpacked.answers){
+        let answer = unpacked.answers[questionno];
+
+        answer.correct = test.questions[questionno].correct.includes(answer);
+        unpacked.answers[questionno] = answer;
+
+        if(answer.correct){
+            correctCount++;
+            points += test.questions[questionno].ptsCorrect;
+        }else{
+            points += test.questions[questionno].ptsWrong;
+        }
+    }
+
+    res.render("results", {
+        test: test,
+        answers: unpacked.answers,
+        correctCount: correctCount,
+        points: points,
+        time: timedur,
+        fmttime: function(ms){return new Date(ms).toISOString().slice(11, -5)},
+        resultcode: Buffer.from(JSON.stringify(unpacked)).toString("base64")
+    });
+});
+
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`);
 });
