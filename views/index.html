@@ -11,10 +11,7 @@
     <ul>
     <% tests.forEach(function(test, index){%>
     <li>
-        <a href="/test/<%= index %>/">
-            <%= test.name %>
-            (<%= test.questions.length %> pytań)
-        </a>
+        <a href="/test/<%= index %>/"><%= test.name %></a>
     </li>
     <% }) %>
 </body>

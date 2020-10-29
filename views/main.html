@@ -9,7 +9,7 @@
 <body>
     <h1><%= test.name %></h1>
     <span class="center" style="font-size: large;" id="timer">00:00:00</span>
-    <form action="results" method="POST">
+    <form action="../results" method="POST">
         <input type="hidden" name="time" id="time" value="0">
         <% test.questions.forEach(function(question, qindex){ %>
         <h2><%= qindex + 1 %>: <%= question.name %></h2>

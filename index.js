@@ -32,6 +32,15 @@ app.get("/test/:id/", (req, res) => {
         res.status(404).send(createError("no such test"));
         return;
     }
+    res.render("testindex", {test: tests[testid]});
+});
+
+app.get("/test/:id/main", (req, res) => {
+    let testid = parseInt(req.params.id);
+    if(isNaN(testid) || testid < 0 || testid >= tests.length){
+        res.status(404).send(createError("no such test"));
+        return;
+    }
     res.render("main", {test: tests[testid]});
 });
 
