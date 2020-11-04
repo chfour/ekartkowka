@@ -30,9 +30,8 @@
             <span style="color: red;"><%= question.ptsWrong %>p</span>
             )
         </span>
-        
     </h3>
-    
+
     <% question.answers.forEach(function(answer, aindex){ %>
 
     <% if(answers[qindex].correct){ %>
@@ -60,6 +59,7 @@
     
     <% } %>
     <% }) %>
+    <% if(!answers[qindex].correct && question.msgAnsWrong.length > 0){ %> <br> <br> * <%= question.msgAnsWrong %> <% } %>
     <% }) %>
     <br>
     <br>

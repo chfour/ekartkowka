@@ -5,6 +5,7 @@
             "name": "question1",
             "answers": ["answer1-correct", "answer2", "answer3"],
             "correct": [0],
+            "msgAnsWrong": "q1 wrong",
             "ptsCorrect": 1,
             "ptsWrong": -1
         },
@@ -12,6 +13,7 @@
             "name": "question2",
             "answers": ["answer1", "answer2-correct", "answer3"],
             "correct": [1],
+            "msgAnsWrong": "q2 wrong",
             "ptsCorrect": 1,
             "ptsWrong": -1
         },
@@ -19,6 +21,7 @@
             "name": "question3",
             "answers": ["answer1", "answer2", "answer3-correct"],
             "correct": [2],
+            "msgAnsWrong": "q3 wrong",
             "ptsCorrect": 1,
             "ptsWrong": -1
         },
@@ -26,6 +29,7 @@
             "name": "question4",
             "answers": ["answer1", "answer2-correct", "answer3-correct"],
             "correct": [1, 2],
+            "msgAnsWrong": "q4 wrong",
             "ptsCorrect": 1,
             "ptsWrong": -1
         }
