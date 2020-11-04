@@ -26,12 +26,22 @@
         <input id="submit3" style="display: none;" type="submit" class="submitbutton" value="na sto procent">
     </form>
     <script>
+        // duration formatting function
         function time(ms) {
             return new Date(ms).toISOString().slice(11, -5);
         }
+        // setup timer
         const starttime = Date.now();
         const timer = document.getElementById("timer");
         const timerinput = document.getElementById("time");
+        setInterval(function(){
+            let nowtime = Date.now();
+            timerinput.value = nowtime - starttime;
+            timer.textContent = time(nowtime - starttime);
+        }, 500);
+
+        // make the buttons show up. not the prettiest approach, but does it work?
+        // yes. yes it does.
         const submitbfake0 = document.getElementById("submit0");
         const submitbfake1 = document.getElementById("submit1");
         const submitbfake2 = document.getElementById("submit2");
@@ -45,11 +55,6 @@
         submitbfake2.addEventListener("click", function(){
             if(submitb.style.display == "none") submitb.style.display = "block";
         });
-        setInterval(function(){
-            let nowtime = Date.now();
-            timerinput.value = nowtime - starttime;
-            timer.textContent = time(nowtime - starttime);
-        }, 500);
     </script>
 </body>
 </html>
